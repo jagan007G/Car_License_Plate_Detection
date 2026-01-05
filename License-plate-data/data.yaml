@@ -1,0 +1,5 @@
+names:
+  0: license_plate
+nc: 1
+train: /content/drive/MyDrive/Colab_Notebooks/License-Plate-Data/train
+val: /content/drive/MyDrive/Colab_Notebooks/License-Plate-Data/test
