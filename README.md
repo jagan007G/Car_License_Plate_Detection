@@ -1,5 +1,3 @@
-<img width="1024" height="768" alt="001" src="https://github.com/user-attachments/assets/82cd803f-86e1-4a1c-9b0c-743621f637df" /># Car_License_Plate_Detection
-
 # 🚗 Automatic Number Plate Recognition (ANPR) using YOLO11 and EasyOCR
 
 An end-to-end Automatic Number Plate Recognition (ANPR) system that detects vehicle license plates using **YOLO11** and recognizes the license plate text using **EasyOCR**.
