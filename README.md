@@ -1,94 +1,301 @@
-# Car_License_Plate_Detection
+<img width="1024" height="768" alt="001" src="https://github.com/user-attachments/assets/82cd803f-86e1-4a1c-9b0c-743621f637df" /># Car_License_Plate_Detection
 
-🚗 License Plate Detection Using YOLO11 & EasyOCR
-An end-to-end Automatic Number Plate Recognition (ANPR) system using YOLO11 for detection and EasyOCR for text extraction. The system is trained on a custom dataset and supports both training and inference.
+# 🚗 Automatic Number Plate Recognition (ANPR) using YOLO11 and EasyOCR
 
-Ideal for smart surveillance, parking systems, and automated toll collection.
+An end-to-end Automatic Number Plate Recognition (ANPR) system that detects vehicle license plates using **YOLO11** and recognizes the license plate text using **EasyOCR**.
 
+The project demonstrates the complete deep learning workflow, including dataset preprocessing, annotation conversion, model training, object detection, and Optical Character Recognition (OCR).
 
+---
 
-🔧 Features
+# 📖 Overview
 
-Convert PASCAL VOC XML annotations to YOLO format
-Split dataset into train/test sets
-Train YOLO11m model for license plate detection
-Perform inference on images
-Crop detected license plate regions
-Recognize text using EasyOCR
-Full pipeline from raw data to license plate text output
+Automatic Number Plate Recognition (ANPR) is widely used in intelligent transportation systems, smart parking, toll collection, traffic monitoring, and vehicle access control.
 
-🛠️ Technologies Used 
+This project implements the complete ANPR pipeline:
 
-Python 3.x
-Ultralytics YOLO11 – State-of-the-art object detection
-EasyOCR – Optical Character Recognition (OCR)
-OpenCV (cv2) – Image processing
-NumPy, Matplotlib, Glob, XML, YAML
-Google Colab / Local GPU – For training
-WANDB (optional) – Experiment tracking
+- Prepare a custom dataset
+- Convert PASCAL VOC XML annotations into YOLO format
+- Split the dataset into training and validation sets
+- Train a custom YOLO11 object detection model
+- Detect license plates from vehicle images
+- Crop detected license plates
+- Extract license plate text using EasyOCR
 
+---
 
-📦 Installation
-1. Clone the Repository
-Bash
+# ✨ Features
 
-git clone https://github.com/jagan007G/Car_License_Plate_Detection.git
-cd license-plate-detection
+- Custom dataset preprocessing
+- PASCAL VOC XML to YOLO annotation conversion
+- Automatic dataset splitting (80% Train / 20% Validation)
+- YOLO11m model training
+- License plate detection
+- Automatic license plate cropping
+- Optical Character Recognition (OCR) using EasyOCR
+- End-to-end Automatic Number Plate Recognition pipeline
 
-2. Create Virtual Environment (Recommended)
-Bash
+---
 
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+# 🛠️ Technologies Used
 
-📁 Project Structure
+| Category | Technologies |
+|-----------|--------------|
+| Programming Language | Python |
+| Object Detection | Ultralytics YOLO11 |
+| OCR | EasyOCR |
+| Computer Vision | OpenCV |
+| Data Processing | NumPy, XML, YAML |
+| Visualization | Matplotlib |
+| Deep Learning | PyTorch (Ultralytics Backend) |
+| Development Environment | Google Colab |
 
-license-plate-detection-yolo11/
+---
 
+# 📂 Repository Structure
+
+```
+Car_License_Plate_Detection/
 │
-
-├── data/
-
-│   ├── annotations/           # PASCAL VOC XML files (Cars0.xml, Cars1.xml, ...)
-
-│   └── images/                 # Input images (Cars0.png, Cars1.png, ...)
-
+├── images/
+│   └── Vehicle Images
 │
-
-├── License-Plate-Data/        # Generated dataset
-
+├── annotations/
+│   └── PASCAL VOC XML Files
+│
+├── License-Plate-Data/
 │   ├── train/
-
 │   │   ├── images/
-
 │   │   └── labels/
-
+│   │
 │   ├── test/
-
 │   │   ├── images/
-
 │   │   └── labels/
-
-│   └── data.yaml               # YOLO dataset config
-
+│   │
+│   └── data.yaml
 │
-
-├── runs/                       # Training outputs (weights, logs)
-
+├── ANPR.ipynb
 │
+└── README.md
+```
 
-├── predict.py                  # Inference script (optional)
+---
 
-├── train.py                    # Training script (optional)
+# ⚙️ Installation
 
-├── colab_notebook.ipynb      # Full notebook (this one)
+Clone the repository
 
-├── README.md
+```bash
+git clone https://github.com/jagan007G/Car_License_Plate_Detection.git
 
-└── requirements.txt
+cd Car_License_Plate_Detection
+```
 
-🖼️ Dataset Requirements
-Images in data/images/ (e.g., Cars0.png, Cars1.png)
-Corresponding XML annotations in data/annotations/ (e.g., Cars0.xml)
-XML format: PASCAL VOC (bounding box with <object><bndbox>)
-License plate must be labeled as class 0 in XML
+Install the required packages
+
+```bash
+pip install ultralytics
+pip install easyocr
+pip install opencv-python
+pip install matplotlib
+pip install numpy
+```
+
+---
+
+# 📊 Dataset Preparation
+
+The dataset consists of
+
+- Vehicle Images (.png)
+- PASCAL VOC XML annotation files
+
+The notebook automatically
+
+- Reads XML annotations
+- Converts bounding boxes into YOLO format
+- Creates the YOLO dataset structure
+- Splits the dataset into
+
+```
+80% Training
+
+20% Validation
+```
+
+A `data.yaml` configuration file is generated automatically for YOLO training.
+
+---
+
+# 🚀 Model Training
+
+The project trains the **YOLO11m** object detection model.
+
+```python
+model = YOLO("yolo11m.pt")
+
+model.train(
+    data="data.yaml",
+    epochs=70,
+    imgsz=640
+)
+```
+
+Training outputs are stored in
+
+```
+runs/detect/train/
+```
+
+The trained model is saved as
+
+```
+best.pt
+```
+
+---
+
+# 🔍 License Plate Detection
+
+The trained YOLO model predicts the bounding box coordinates of the license plate.
+
+Example workflow
+
+```
+Vehicle Image
+
+↓
+
+YOLO11 Detection
+
+↓
+
+Bounding Box Coordinates
+
+↓
+
+Crop License Plate
+
+↓
+
+EasyOCR
+
+↓
+
+License Plate Number
+```
+
+---
+
+# 🔠 Optical Character Recognition
+
+EasyOCR extracts the characters from the cropped license plate image.
+
+Example
+
+```
+Detected Plate
+
+TN09AB1234
+```
+
+---
+
+# 🔄 Complete Pipeline
+
+```
+Vehicle Image
+      │
+      ▼
+Read XML Annotation
+      │
+      ▼
+Convert XML → YOLO Format
+      │
+      ▼
+Generate YOLO Dataset
+      │
+      ▼
+Train YOLO11
+      │
+      ▼
+Load Trained Model
+      │
+      ▼
+Detect License Plate
+      │
+      ▼
+Crop Plate Region
+      │
+      ▼
+EasyOCR
+      │
+      ▼
+Recognized License Plate
+```
+
+---
+
+# 📸 Results
+
+## Input Image
+
+<img width="1024" height="768" alt="001" src="https://github.com/user-attachments/assets/7189497d-a1c6-42bf-98b8-7370470e8d41" />
+<img width="1200" height="900" alt="bike" src="https://github.com/user-attachments/assets/51db880c-cf55-4aa8-a0d2-67bf2db3b999" />
+<img width="768" height="1024" alt="number_plate" src="https://github.com/user-attachments/assets/69c976fd-4689-4310-ba86-2caf450397c8" />
+<img width="1400" height="500" alt="number_plate2" src="https://github.com/user-attachments/assets/23fefe46-8e6b-4dd6-bbc3-b522cf3db943" />
+![Uploading number_plate4.jpg…]()
+
+
+---
+
+## License Plate Detection
+
+<img width="697" height="628" alt="detected" src="https://github.com/user-attachments/assets/4e69a34d-0942-4a9c-8eea-29943af197ca" />
+
+---
+
+## Cropped License Plate
+
+<img width="117" height="67" alt="Screenshot 2026-07-19 153447" src="https://github.com/user-attachments/assets/bb41bde8-c03e-43f3-8457-f0fb0f8d443a" />
+
+<img width="116" height="68" alt="Screenshot 2026-07-19 153432" src="https://github.com/user-attachments/assets/6b30b22e-9d4b-4ddf-af6b-14198030a827" />
+
+
+
+---
+
+## OCR Result
+
+```
+MH23 DV2363
+```
+
+# 💼 Applications
+
+- Smart Parking Systems
+- Automatic Toll Collection
+- Vehicle Access Control
+- Traffic Surveillance
+- Intelligent Transportation Systems
+- Smart Cities
+- Law Enforcement
+
+---
+
+# 🚀 Future Improvements
+
+- Real-time video processing
+- Webcam integration
+- Multiple vehicle detection
+- Vehicle tracking
+- OCR confidence filtering
+- Flask/FastAPI deployment
+- Streamlit Web Application
+- Docker support
+- Edge deployment using NVIDIA Jetson
+
+
+# ⭐ Support
+
+If you found this project useful, consider giving it a ⭐ on GitHub.
